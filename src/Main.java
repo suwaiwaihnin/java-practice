@@ -8,5 +8,7 @@ public class Main {
                 new User("鈴木太郎", LocalDate.of(1991, 2, 2)),
                 new User("山田一郎", LocalDate.of(2003, 3, 3)),
                 new User("鈴木花子", LocalDate.of(2002, 4, 4)));
+        System.out.println("【すべてのユーザーを表示する】");
+        users.forEach(u -> System.out.printf("名前: %s, 生年月日: %s\n", u.getName(), u.getBirthdate()));
     }
 }
