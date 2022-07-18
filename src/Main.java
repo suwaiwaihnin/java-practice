@@ -1,5 +1,7 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -14,11 +16,11 @@ public class Main {
         users.forEach(u -> System.out.printf("名前: %s, 生年月日: %s\n", u.getName(), u.getBirthdate()));
 
 //       yyyy/MM/dd(E)形式で出力されるユーザー
-        String[] day = new String[]{"月", "火", "水", "木", "金", "土", "日"};
+        String dateFormate = "yyyy年M月d日(E)";
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormate, Locale.JAPAN);
         System.out.println("【すべてのユーザーを表示する。ただし生年月日はyyyy/MM/dd(E)形式で出力する】");
-        users.forEach(u -> System.out.printf("名前: %s, 生年月日: %s年%s月%s日(%s)\n",
-                u.getName(), u.getBirthdate().getYear(), u.getBirthdate().getMonthValue(), u.getBirthdate().getDayOfMonth(),
-                day[u.getBirthdate().getDayOfWeek().getValue() - 1]));
+        users.forEach(u -> System.out.printf("名前: %s, 生年月日: %s\n",
+                u.getName(), dateFormatter.format(u.getBirthdate())));
 
 //        名前が鈴木で始まるユーザーを表示する
         System.out.println("【名前が鈴木で始まる人のみを表示する】");
