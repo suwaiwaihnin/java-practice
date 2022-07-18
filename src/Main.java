@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -20,12 +21,30 @@ public class Main {
         System.out.println("【すべてのユーザーを表示する。ただし生年月日はyyyy/MM/dd(E)形式で出力する】");
         users.forEach(u -> System.out.printf("名前: %s, 生年月日: %s\n",
                 u.getName(), dateFormatter.format(u.getBirthdate())));
-        
+
         System.out.println("【名前が鈴木で始まる人のみを表示する】");
         List<User> result1 = users.stream()
                 .filter(u -> u.getName().startsWith("鈴木"))
                 .collect(Collectors.toList());
         result1.forEach(p -> System.out.println(p.getName()));
 
+        System.out.println("【生年月日が2000年1月1日以降の人のみを表示する】");
+        List<User> filterByDate = users.stream().filter(user -> user.getBirthdate().isAfter(LocalDate.of(2000, 1, 1))).collect(Collectors.toList());
+        filterByDate.forEach(u -> System.out.printf("名前: %s, 生年月日: %s\n",
+                u.getName(), u.getBirthdate()));
+
+        System.out.println("【生年月日の昇順に並び替えて表示する】");
+        List<User> sortedUsersByDate = users.stream()
+                .sorted(Comparator.comparing(u -> u.getBirthdate()))
+                .collect(Collectors.toList());
+        sortedUsersByDate.forEach(u -> System.out.printf("名前: %s, 生年月日: %s\n",
+                u.getName(), u.getBirthdate()));
+
+        System.out.println("【生年月日の降順に並び替えて表示する】");
+        List<User> sortedUsersByDescDate = users.stream()
+                .sorted(Comparator.comparing(User::getBirthdate).reversed())
+                .collect(Collectors.toList());
+        sortedUsersByDescDate.forEach(u -> System.out.printf("名前: %s, 生年月日: %s\n",
+                u.getName(), u.getBirthdate()));
     }
 }
