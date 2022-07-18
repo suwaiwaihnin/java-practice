@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
@@ -46,5 +47,27 @@ public class Main {
                 .collect(Collectors.toList());
         sortedUsersByDescDate.forEach(u -> System.out.printf("名前: %s, 生年月日: %s\n",
                 u.getName(), u.getBirthdate()));
+
+        System.out.println("【2022年7月1日時点の各ユーザーの年齢を表示する】");
+        users.forEach(u -> System.out.printf("名前: %s, 年齢: %s歳\n", u.getName(), getUserAge(u.getBirthdate(), LocalDate.of(2022, 7, 1))));
+
+        System.out.println("【2022年7月1日時点で20歳以下のユーザーを表示する】");
+        List<User> userUnderAge20 = users.stream()
+                .filter(user -> getUserAge(user.getBirthdate(), LocalDate.of(2022, 7, 1)) <= 20)
+                .collect(Collectors.toList());
+        userUnderAge20.forEach(u -> System.out.printf("名前: %s, 年齢: %s歳\n", u.getName(), getUserAge(u.getBirthdate(), LocalDate.of(2022, 7, 1))));
+
+        System.out.println("【2022年7月1日時点で20歳未満のユーザーを表示する】");
+        List<User> userAgeNot20 = users.stream()
+                .filter(user -> getUserAge(user.getBirthdate(), LocalDate.of(2022, 7, 1)) < 20)
+                .collect(Collectors.toList());
+        userAgeNot20.forEach(u -> System.out.printf("名前: %s, 年齢: %s歳\n", u.getName(), getUserAge(u.getBirthdate(), LocalDate.of(2022, 7, 1))));
+
+
+    }
+
+    public static int getUserAge(LocalDate birthDate, LocalDate currentDate) {
+
+        return Period.between(birthDate, currentDate).getYears();
     }
 }
